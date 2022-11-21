@@ -1,0 +1,241 @@
+﻿Guideline:
+
+We know that in pong, it involves two paddles and a ball in order to play. While
+working towards a multiplayer game, we need to consider the overall structure. After all,
+we can't play without some sort of display to work with.
+
+Game Structure:
+    1. Play until either player 1 or 2 reaches 10
+    2. Create the basic game setup
+        a) Create the Game Screen
+        b) Create our Paddles
+        c) Create our ball
+        d) Position our paddles and ball
+        e) Display our game screen
+    3. Check for keyboard input: Pause in our program
+        a) up, down: player 1 will move
+        b) W, S: player 2 will move
+    4. Check for bounds(with keyboard input)
+    5. Ball Movement
+    6. Check for Collisions
+    7. Implement a Scoring System
+
+Step 1: Creating the Display
+
+First, we want to create our screen. The screen will serve as our display as we
+are playing the game. Instead of an actual window, we attempt to create our screen
+in the terminal. We can think of a screen as having some dimensions, but because of the
+complexity of the screen object, we can consider a 2D array, and this will represent our
+display in the program.
+
+If we think about the context of the game, we can think about our ball as some character,
+moving towards a series of positions on the screen. The paddles are equivalent to a series
+of "blocks" moving up and down throughout our program. Thus, we can consider now our display
+as a 2D array of characters, with our ball in the middle, and the paddles in the left and right
+bounds on our screen.
+
+What defines a screen in our program is that it has its own title, its own dimensions, and
+its own display surface. This will be an object that will be modeled in our program. When modeling it, 
+We want our screen to do the following jobs:
+
+    1. Pass in the dimensions, create the screen object
+    2. Using the dimensions, initialize the screen as a series of empty characters
+    3. Display and update based on the game logic(more on that later)
+
+Step 2: Creating the Paddles
+
+Then, we need to consider our game objects, the ball and the paddle.
+
+Ball:
+    1. Moving throughout the game screen
+    2. Initially, we want to place the ball approximately at its center
+    3. Give it some speed to create the moving effect
+
+Paddles:
+    1. Players in my program
+    2. Place them with some bound, not directly at the ends
+       of the game screen
+    3. Center the paddles
+    4. We want to consider a length for the paddle
+    5. Move upwards and downwards
+
+First off, let's consider the paddles. To present each paddle, we can think of it
+as a series of characters throughout the program. Each paddle will have a position
+on the game board, a length, the ability to move up and down, but to make it more
+interesting, we want to modify the paddle as the ball collides with it.
+
+A paddle in our program is defined by the following:
+    1. A series of characters: its own array structure
+    2. A position in our screen: 2-3 column offset so that its not directly at the
+       ends of the screen
+    3. Length of the paddle, array structure
+    4. Moves up and down
+    5. Display itself
+
+After defining the aesthetics, we need to consider about how to display the paddle.
+We already considered the offset, but we want to consider how to place it. We want
+to use our row position and the length to help with this. For example, say the paddle
+was at the middle of the screen, at row 15, but we have a length of 7. We don't want the top
+or bottom of the paddle at row 15 because we would not be at the center. Instead, because
+our length is an odd number, we can use the middle element as the center, then the top and
+bottom 3 elements will be placed like the following...
+
+Let b represent a block.
+
+1. {b, b, b, b, b, b, b}
+
+    b
+    b
+    b
+2.  b -> 15, the block in the middle in row 15
+    b
+    b
+    b
+
+First, we find that middle element and this will be the halfway point of the paddle. Then,
+we can run our for loop to draw the rest of the paddle. Our indexes will represent units,
+and we'll consider them as the distance away from the center of the paddle. Using those distances,
+we also want to use each individual block of our paddle structure and this will be drawn onto the game
+screen.
+
+Step 3: Implement Paddle Movement
+
+Now, we should have at least a basic layout. So far, we've drawn our screen in addition to our paddles. But
+right now everything is in a static motion, and we want to consider adding some movement to our paddles. To recap,
+our paddle is a series of characters, so to move the paddle, we need to move each character in a up or down
+motion.
+
+The idea is as follows:
+    1. When we created the paddle, we positioned them at Row 15
+    2. Row 15: The paddle's center
+    3. When we are moving up, we start at the top of the paddle, then work downwards
+    4. When we are moving down, we start at the bottom of the paddle, then work upwards
+    5. Notice our centerOfPaddle variable that we used earlier to display our paddle,
+       then we want to use that bound again to start up or down dependent on
+       the method that is called.
+    6. After moving up or down, we want to modify the row position.
+    7. For bounds, it is helpful to consider the row positions just before it crashes.
+
+          * For Upward Movement: We only want to move the paddle if the top most
+              block does not reach the top of the screen
+          * For Downward Movement: We only want to move the paddle if the bottom most
+              block does not reach the bottom of the screen
+
+    8. Consider Keyboard input:
+            Up: player 1 will move up
+            Down: player 1 will move down
+            w: Player 2 moves up
+            s: Player 2 moves down
+
+        First, we can consider creating a variable that will store some keyboard input. Then we
+        want to compare the input and check for the following keys: up, down, w and s. If we press
+        the up and down arrow keys, we know player 1 is either going to move up or down. If we press
+        the w and s keys, we know player 2 is either going to move up or down. Afterwords, we should now
+        have a decent game to start out: our screen is implemented and the paddles are able to move.
+
+
+Step 4: Creating our Ball
+
+Right now, the game looks generic: paddle on the left, paddle on the right, and we are able to move the
+paddles up and down. But now we want to consider adding a ball object. Essentially, we want to start the ball at
+the center, and we want it to move continously throughout our program. Instead of a separate object, we want to try to
+model what a ball is inside of my program.
+
+Simply, let's understand what a ball is:
+    1. A ball is a character(in the context of our program)
+    2. It has its own position(row, column)
+
+After setting up the ball, we want to display the ball at the center of our screen. This will be a job for the Ball Class
+to work with. We can create a separate method to place the ball before displaying our game screen. You'll notice that I am
+first placing the paddles and ball in our game screen before displaying the game screen itself. This is because we want to avoid
+displaying an empty screen at the start of our program.
+
+
+Step 5: Ball Movement
+
+Now, while we have created our ball, its rather static. Our next step is to implement movement of our ball. In other words,
+we want to give it a speed throughout our program. The way to think about this is that our screen is made up of rows and
+columns. We can use this to our advantage to then set a row and a column speed throughout our program. Instead of separate
+variables, these will also be attributes of what defines a ball in our program. We can create a rowSpeed and a columnSpeed attribute.
+We will move the ball until the user presses a key, in other words, if we haven't pressed the up, down, W, or S arrow keys, we
+move the ball. Because our ball will move continously throughout our program, we want the movement of the ball to be its own
+separate loop. 
+
+Idea:
+
+while((up, down, W, S key(s) have not been pressed))
+{
+    Move the ball
+}
+
+We also want to consider constraints throughout the program. Some of our constraints that we want to consider is that if we
+are not on the top row or bottom row, we move the ball at the appropriate speed. Otherwise, we want to modify the speed based on the
+constraint
+
+If we are at the bottom row, we want to move upwards
+    * Modify the ball speed to -1
+If we are at the top row, we want to move downwards
+    * Modify the ball speed back to 1
+
+Now, for the vertical constraints, we look back at our screen and pay particular attention to the number of columns. In our example case, we have a 30 row
+by 80 column screen. Because the screen is 0-based, we consider the ball to be in bounds from 0 - 79.
+
+Once the ball's column position reaches 0 or 79, we want to reset the ball back to the center of the screen, then recreate the original paddles
+to then be displayed. To recreate the paddles, we want to go through our loop structure and check for any empty spots on my paddle. If there's an
+empty spot, we want to refill it with the paddle block.
+
+Ex:
+
+Original paddle:
+{b, b, , b, , b, b}
+New paddle: 
+{b, b, b, b, b, b, b}
+
+Step 6: Check for Paddle Collisions
+
+Now that we have some side-to-side movement, we then want to focus on when the ball collides with the paddle. Once the ball reaches
+near the paddle, we want to check if the ball is in bounds of the paddle.
+
+Player 1: Located in column 77, and we want to focus on that boundary between the paddle's position and the same exact position, minus
+1.
+
+Player 2: Located in column 3, and we want to focus on that boundary between the paddle's position and the same exact position, minus
+1.
+
+Once the ball meets with the paddle at the same column, we want to check if it collided with the player's paddle. Our paddle is
+represented with hashes, and once we make contact with the hash, we want to delete the hash from that position, then reverse the ball's
+direction by modifying the column speed. Once the hash has been deleted, it will no longer be under consideration.
+We can do so by checking the entire paddle, that is, check every individual character if there's a hash. We do so by considering
+the row position of the paddle, and we want to start from the top, then work our way down. Once there's a collision, we want to delete
+the piece from our paddle and continue to do so until we have two blocks under consideration. Once the ball surpasses the vertical and horizontal constraints,
+we want to redraw and reset our paddle like it was at the start.
+
+
+Final Step: Implement our scoring system
+
+Lastly, we want to implement some way to track our score throughout the program. When the ball surpasses the vertical constraints, we know
+that either player 1 or player 2 scored. The game looks like the following...
+
+
+p                                                       p
+l                                                       l
+a                                                       a
+y                          O                            y   
+e                                                       e
+r                                                       r
+                
+2                                                       1
+        
+   
+
+When the ball does not collide with player 2's paddle; in other words, when the ball reaches
+the end of the screen towards the left side, then player 1 gets a point. Otherwise, when the
+ball reaches the end of the screen towards the right side(surpass player 1's paddle), then
+player 2 gets a point. 
+
+
+
+
+
+   
+

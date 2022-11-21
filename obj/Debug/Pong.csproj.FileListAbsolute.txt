@@ -1,0 +1,6 @@
+/Users/tarikkrestalica/Desktop/PersonalProjects/Pong/Pong/bin/Debug/Pong.exe
+/Users/tarikkrestalica/Desktop/PersonalProjects/Pong/Pong/bin/Debug/Pong.pdb
+/Users/tarikkrestalica/Desktop/PersonalProjects/Pong/Pong/obj/Debug/Pong.csproj.CoreCompileInputs.cache
+/Users/tarikkrestalica/Desktop/PersonalProjects/Pong/Pong/obj/Debug/Pong.exe
+/Users/tarikkrestalica/Desktop/PersonalProjects/Pong/Pong/obj/Debug/Pong.pdb
+/Users/tarikkrestalica/Desktop/PersonalProjects/Pong/Pong/obj/Debug/Pong.csproj.AssemblyReference.cache
